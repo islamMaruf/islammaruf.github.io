@@ -325,6 +325,12 @@
   <section id="activity" class="section container activity-section">
     <h2 class="section-title"><span class="num">05.</span> Coding Activity</h2>
     <p class="activity-lede">Live from my <a href="https://wakatime.com/@islammaruf" target="_blank" rel="noopener noreferrer">WakaTime</a> profile, synced automatically via a scheduled GitHub Action.</p>
+
+    <div class="activity-tabs" id="activityTabs" role="tablist" aria-label="Coding activity range">
+      <button type="button" class="activity-tab is-active" data-range="last_7_days" role="tab" aria-selected="true">Last 7 Days</button>
+      <button type="button" class="activity-tab" data-range="all_time" role="tab" aria-selected="false">All Time</button>
+    </div>
+
     <div class="activity-card" id="activityCard" data-state="loading">
       <div class="activity-head">
         <div>
@@ -333,6 +339,7 @@
         </div>
         <span class="activity-updated" id="activityUpdated"></span>
       </div>
+      <div class="activity-substats" id="activitySubstats"></div>
       <ul class="lang-bars" id="activityLangs"></ul>
     </div>
   </section>

@@ -26,34 +26,76 @@ jobs:
             exit 1
           fi
 
-          RESP=$(curl -sS -w "\n%{http_code}" \
-            -H "Authorization: Basic $(printf '%s' "$WAKATIME_API_KEY" | base64 -w0)" \
-            "https://wakatime.com/api/v1/users/current/stats/last_7_days")
-          HTTP_CODE=$(echo "$RESP" | tail -n1)
-          BODY=$(echo "$RESP" | sed '$d')
+          AUTH="Basic $(printf '%s' "$WAKATIME_API_KEY" | base64 -w0)"
 
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "WakaTime API returned HTTP $HTTP_CODE, skipping update."
-            echo "$BODY"
+          fetch() {
+            curl -sS -w "\n%{http_code}" -H "Authorization: $AUTH" "$1"
+          }
+          body_of() { printf '%s' "$1" | sed '$d'; }
+          code_of() { printf '%s' "$1" | tail -n1; }
+
+          # --- Last 7 days ---
+          RESP7=$(fetch "https://wakatime.com/api/v1/users/current/stats/last_7_days")
+          CODE7=$(code_of "$RESP7")
+          BODY7=$(body_of "$RESP7")
+
+          if [ "$CODE7" != "200" ]; then
+            echo "last_7_days: HTTP $CODE7, aborting without changing committed data."
+            echo "$BODY7"
             exit 0
           fi
 
-          TOTAL=$(echo "$BODY" | jq -r '.data.human_readable_total // empty')
-          if [ -z "$TOTAL" ]; then
-            echo "No total time in response (stats may still be calculating), skipping update."
+          TOTAL7=$(echo "$BODY7" | jq -r '.data.human_readable_total // empty')
+          if [ -z "$TOTAL7" ]; then
+            echo "last_7_days: no total in response yet, aborting without changing committed data."
+            exit 0
+          fi
+          AVG7=$(echo "$BODY7" | jq -r '.data.human_readable_daily_average // empty')
+          LANGS7=$(echo "$BODY7" | jq '[ (.data.languages // [])[0:6][] | {name: .name, percent: .percent, text: .text} ]')
+
+          # --- All time (full breakdown; can take a while for WakaTime to compute) ---
+          TOTAL_ALL=""
+          AVG_ALL=""
+          LANGS_ALL="[]"
+
+          RESP_ALL=$(fetch "https://wakatime.com/api/v1/users/current/stats/all_time")
+          CODE_ALL=$(code_of "$RESP_ALL")
+          BODY_ALL=$(body_of "$RESP_ALL")
+
+          if [ "$CODE_ALL" = "200" ]; then
+            TOTAL_ALL=$(echo "$BODY_ALL" | jq -r '.data.human_readable_total // empty')
+            AVG_ALL=$(echo "$BODY_ALL" | jq -r '.data.human_readable_daily_average // empty')
+            LANGS_ALL=$(echo "$BODY_ALL" | jq '[ (.data.languages // [])[0:6][] | {name: .name, percent: .percent, text: .text} ]')
+          fi
+
+          # Fall back to the lightweight endpoint if the full all-time stats aren't ready yet
+          if [ -z "$TOTAL_ALL" ]; then
+            RESP_SINCE=$(fetch "https://wakatime.com/api/v1/users/current/all_time_since_today")
+            CODE_SINCE=$(code_of "$RESP_SINCE")
+            BODY_SINCE=$(body_of "$RESP_SINCE")
+            if [ "$CODE_SINCE" = "200" ]; then
+              TOTAL_ALL=$(echo "$BODY_SINCE" | jq -r '.data.text // empty')
+            fi
+          fi
+
+          if [ -z "$TOTAL_ALL" ]; then
+            echo "all_time: no total available yet, aborting without changing committed data."
             exit 0
           fi
 
-          LANGS=$(echo "$BODY" | jq '[.data.languages[0:5][] | {name: .name, percent: .percent, text: .text}]')
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           jq -n \
-            --arg range "Last 7 Days" \
-            --arg total "$TOTAL" \
-            --argjson languages "$LANGS" \
             --arg updated_at "$NOW" \
-            '{range: $range, total: $total, languages: $languages, updated_at: $updated_at}' \
-            > assets/data/waka-stats.json
+            --arg t7 "$TOTAL7" --arg a7 "$AVG7" --argjson l7 "$LANGS7" \
+            --arg tall "$TOTAL_ALL" --arg aall "$AVG_ALL" --argjson lall "$LANGS_ALL" \
+            '{
+              updated_at: $updated_at,
+              ranges: {
+                last_7_days: { label: "Last 7 Days", total: $t7, daily_average: $a7, languages: $l7 },
+                all_time: { label: "All Time", total: $tall, daily_average: $aall, languages: $lall }
+              }
+            }' > assets/data/waka-stats.json
 
       - name: Commit updated stats
         run: |

@@ -39,6 +39,12 @@ The "Coding Activity" section reads `assets/data/waka-stats.json`, a static file
 `.github/workflows/sync-wakatime-stats.yml` GitHub Action. The WakaTime API key never ships to the
 browser — it's only used server-side, inside the Action run.
 
+The page offers a toggle between **Last 7 Days** and **All Time** (total time, daily average and a
+per-language breakdown for each). The workflow pulls `all_time` from WakaTime's stats endpoint and
+falls back to the lightweight `all_time_since_today` endpoint for the total if the full all-time
+breakdown hasn't finished computing yet (WakaTime can take a while to calculate all-time stats the
+first time).
+
 To enable it after pushing this repo to GitHub:
 
 1. Get your API key from https://wakatime.com/settings/api-key.

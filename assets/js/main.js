@@ -59,37 +59,80 @@
   // Coding activity (WakaTime), synced into assets/data/waka-stats.json by a scheduled GitHub Action
   var activityCard = document.getElementById("activityCard");
   if (activityCard) {
+    var activityTabs = document.getElementById("activityTabs");
+    var statsData = null;
+    var activeRange = "last_7_days";
+
+    function renderRange(key) {
+      if (!statsData || !statsData.ranges || !statsData.ranges[key]) return;
+      var range = statsData.ranges[key];
+
+      var rangeEl = document.getElementById("activityRange");
+      var totalEl = document.getElementById("activityTotal");
+      var updatedEl = document.getElementById("activityUpdated");
+      var substatsEl = document.getElementById("activitySubstats");
+      var langsEl = document.getElementById("activityLangs");
+
+      if (rangeEl) rangeEl.textContent = range.label || key;
+      if (totalEl) totalEl.textContent = range.total || "—";
+      if (updatedEl && statsData.updated_at) {
+        var d = new Date(statsData.updated_at);
+        updatedEl.textContent = "Synced " + d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+      }
+
+      if (substatsEl) {
+        substatsEl.innerHTML = "";
+        if (range.daily_average) {
+          substatsEl.innerHTML +=
+            '<div class="activity-substat"><span class="activity-substat-label">Daily Average</span>' +
+            '<span class="activity-substat-value">' + range.daily_average + "</span></div>";
+        }
+        if (range.best_day && range.best_day.text) {
+          substatsEl.innerHTML +=
+            '<div class="activity-substat"><span class="activity-substat-label">Best Day</span>' +
+            '<span class="activity-substat-value">' + range.best_day.text + "</span></div>";
+        }
+      }
+
+      if (langsEl) {
+        langsEl.innerHTML = "";
+        (range.languages || []).forEach(function (lang) {
+          var li = document.createElement("li");
+          li.className = "lang-bar-row";
+          li.innerHTML =
+            '<div class="lang-bar-labels">' +
+            '<span class="lang-bar-name">' + lang.name + "</span>" +
+            '<span class="lang-bar-meta">' + lang.text + "</span>" +
+            "</div>" +
+            '<div class="lang-bar-track"><div class="lang-bar-fill" style="width:' + lang.percent + '%"></div></div>';
+          langsEl.appendChild(li);
+        });
+      }
+
+      activeRange = key;
+    }
+
+    if (activityTabs) {
+      activityTabs.addEventListener("click", function (e) {
+        var btn = e.target.closest(".activity-tab");
+        if (!btn) return;
+        var key = btn.getAttribute("data-range");
+        activityTabs.querySelectorAll(".activity-tab").forEach(function (t) {
+          t.classList.toggle("is-active", t === btn);
+          t.setAttribute("aria-selected", t === btn ? "true" : "false");
+        });
+        renderRange(key);
+      });
+    }
+
     fetch("assets/data/waka-stats.json", { cache: "no-store" })
       .then(function (res) {
         if (!res.ok) throw new Error("stats unavailable");
         return res.json();
       })
       .then(function (data) {
-        var rangeEl = document.getElementById("activityRange");
-        var totalEl = document.getElementById("activityTotal");
-        var updatedEl = document.getElementById("activityUpdated");
-        var langsEl = document.getElementById("activityLangs");
-
-        if (rangeEl && data.range) rangeEl.textContent = data.range;
-        if (totalEl && data.total) totalEl.textContent = data.total;
-        if (updatedEl && data.updated_at) {
-          var d = new Date(data.updated_at);
-          updatedEl.textContent = "Synced " + d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-        }
-        if (langsEl && Array.isArray(data.languages) && data.languages.length) {
-          langsEl.innerHTML = "";
-          data.languages.forEach(function (lang) {
-            var li = document.createElement("li");
-            li.className = "lang-bar-row";
-            li.innerHTML =
-              '<div class="lang-bar-labels">' +
-              '<span class="lang-bar-name">' + lang.name + "</span>" +
-              '<span class="lang-bar-meta">' + lang.text + "</span>" +
-              "</div>" +
-              '<div class="lang-bar-track"><div class="lang-bar-fill" style="width:' + lang.percent + '%"></div></div>';
-            langsEl.appendChild(li);
-          });
-        }
+        statsData = data;
+        renderRange(activeRange);
         activityCard.setAttribute("data-state", "ready");
       })
       .catch(function () {
