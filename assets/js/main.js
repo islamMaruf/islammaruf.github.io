@@ -44,6 +44,18 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // Years of professional experience, computed from career start (Skylark Soft Ltd, Feb 2019)
+  var CAREER_START = new Date(2019, 1, 1);
+  var now = new Date();
+  var yearsExp = now.getFullYear() - CAREER_START.getFullYear();
+  var monthDiff = now.getMonth() - CAREER_START.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < CAREER_START.getDate())) {
+    yearsExp--;
+  }
+  document.querySelectorAll(".js-years-exp").forEach(function (el) {
+    el.textContent = yearsExp + (el.getAttribute("data-suffix") || "");
+  });
+
   // Scroll-reveal for sections
   var revealTargets = document.querySelectorAll(
     ".skill-card, .project-card, .timeline-item, .edu-card, .contact-card, .about-facts > div"
