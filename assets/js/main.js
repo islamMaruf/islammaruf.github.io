@@ -56,9 +56,50 @@
     el.textContent = yearsExp + (el.getAttribute("data-suffix") || "");
   });
 
+  // Coding activity (WakaTime), synced into assets/data/waka-stats.json by a scheduled GitHub Action
+  var activityCard = document.getElementById("activityCard");
+  if (activityCard) {
+    fetch("assets/data/waka-stats.json", { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("stats unavailable");
+        return res.json();
+      })
+      .then(function (data) {
+        var rangeEl = document.getElementById("activityRange");
+        var totalEl = document.getElementById("activityTotal");
+        var updatedEl = document.getElementById("activityUpdated");
+        var langsEl = document.getElementById("activityLangs");
+
+        if (rangeEl && data.range) rangeEl.textContent = data.range;
+        if (totalEl && data.total) totalEl.textContent = data.total;
+        if (updatedEl && data.updated_at) {
+          var d = new Date(data.updated_at);
+          updatedEl.textContent = "Synced " + d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+        }
+        if (langsEl && Array.isArray(data.languages) && data.languages.length) {
+          langsEl.innerHTML = "";
+          data.languages.forEach(function (lang) {
+            var li = document.createElement("li");
+            li.className = "lang-bar-row";
+            li.innerHTML =
+              '<div class="lang-bar-labels">' +
+              '<span class="lang-bar-name">' + lang.name + "</span>" +
+              '<span class="lang-bar-meta">' + lang.text + "</span>" +
+              "</div>" +
+              '<div class="lang-bar-track"><div class="lang-bar-fill" style="width:' + lang.percent + '%"></div></div>';
+            langsEl.appendChild(li);
+          });
+        }
+        activityCard.setAttribute("data-state", "ready");
+      })
+      .catch(function () {
+        activityCard.setAttribute("data-state", "error");
+      });
+  }
+
   // Scroll-reveal for sections
   var revealTargets = document.querySelectorAll(
-    ".skill-card, .project-card, .timeline-item, .edu-card, .contact-card, .about-facts > div"
+    ".skill-card, .project-card, .timeline-item, .edu-card, .contact-card, .about-facts > div, .activity-card"
   );
   if ("IntersectionObserver" in window && revealTargets.length) {
     revealTargets.forEach(function (el) {

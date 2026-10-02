@@ -1,0 +1,68 @@
+name: Sync WakaTime Stats
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # daily at 03:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch WakaTime stats
+        env:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${WAKATIME_API_KEY:-}" ]; then
+            echo "::error::WAKATIME_API_KEY secret is not set. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          RESP=$(curl -sS -w "\n%{http_code}" \
+            -H "Authorization: Basic $(printf '%s' "$WAKATIME_API_KEY" | base64 -w0)" \
+            "https://wakatime.com/api/v1/users/current/stats/last_7_days")
+          HTTP_CODE=$(echo "$RESP" | tail -n1)
+          BODY=$(echo "$RESP" | sed '$d')
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "WakaTime API returned HTTP $HTTP_CODE, skipping update."
+            echo "$BODY"
+            exit 0
+          fi
+
+          TOTAL=$(echo "$BODY" | jq -r '.data.human_readable_total // empty')
+          if [ -z "$TOTAL" ]; then
+            echo "No total time in response (stats may still be calculating), skipping update."
+            exit 0
+          fi
+
+          LANGS=$(echo "$BODY" | jq '[.data.languages[0:5][] | {name: .name, percent: .percent, text: .text}]')
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          jq -n \
+            --arg range "Last 7 Days" \
+            --arg total "$TOTAL" \
+            --argjson languages "$LANGS" \
+            --arg updated_at "$NOW" \
+            '{range: $range, total: $total, languages: $languages, updated_at: $updated_at}' \
+            > assets/data/waka-stats.json
+
+      - name: Commit updated stats
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/data/waka-stats.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: sync WakaTime stats [skip ci]"
+          git push
