@@ -1,56 +1,56 @@
 {
-  "updated_at": "2026-10-11T09:52:20Z",
+  "updated_at": "2026-10-12T10:34:01Z",
   "ranges": {
     "last_7_days": {
       "label": "Last 7 Days",
-      "total": "54 hrs 11 mins",
-      "daily_average": "7 hrs 44 mins",
+      "total": "45 hrs 3 mins",
+      "daily_average": "6 hrs 26 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 44.78,
-          "text": "25 hrs 12 mins"
+          "percent": 38.46,
+          "text": "18 hrs"
         },
         {
           "name": "Markdown",
-          "percent": 20.81,
-          "text": "11 hrs 42 mins"
+          "percent": 24.69,
+          "text": "11 hrs 33 mins"
         },
         {
           "name": "TypeScript",
-          "percent": 11.99,
-          "text": "6 hrs 44 mins"
+          "percent": 14.28,
+          "text": "6 hrs 41 mins"
         },
         {
           "name": "YAML",
-          "percent": 5.53,
-          "text": "3 hrs 6 mins"
-        },
-        {
-          "name": "Other",
-          "percent": 3.73,
-          "text": "2 hrs 6 mins"
+          "percent": 3.91,
+          "text": "1 hr 49 mins"
         },
         {
           "name": "JSON",
-          "percent": 3.19,
-          "text": "1 hr 47 mins"
+          "percent": 3.8,
+          "text": "1 hr 46 mins"
+        },
+        {
+          "name": "Other",
+          "percent": 3.78,
+          "text": "1 hr 46 mins"
         }
       ]
     },
     "all_time": {
       "label": "All Time",
-      "total": "7,558 hrs 16 mins",
+      "total": "7,560 hrs 6 mins",
       "daily_average": "4 hrs 40 mins",
       "languages": [
         {
           "name": "PHP",
           "percent": 42.39,
-          "text": "3,506 hrs 53 mins"
+          "text": "3,507 hrs 49 mins"
         },
         {
           "name": "TypeScript",
-          "percent": 14.89,
+          "percent": 14.88,
           "text": "1,231 hrs 31 mins"
         },
         {
@@ -71,7 +71,7 @@
         {
           "name": "Blade Template",
           "percent": 3.92,
-          "text": "324 hrs 14 mins"
+          "text": "324 hrs 15 mins"
         }
       ]
     }
