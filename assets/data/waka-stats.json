@@ -1,40 +1,40 @@
 {
-  "updated_at": "2026-10-14T08:34:42Z",
+  "updated_at": "2026-10-15T08:09:44Z",
   "ranges": {
     "last_7_days": {
       "label": "Last 7 Days",
-      "total": "38 hrs 35 mins",
-      "daily_average": "5 hrs 30 mins",
+      "total": "39 hrs 42 mins",
+      "daily_average": "5 hrs 40 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 42.03,
-          "text": "16 hrs 52 mins"
+          "percent": 39.32,
+          "text": "16 hrs 6 mins"
         },
         {
           "name": "Markdown",
-          "percent": 25.75,
-          "text": "10 hrs 20 mins"
+          "percent": 26.02,
+          "text": "10 hrs 39 mins"
         },
         {
           "name": "TypeScript",
-          "percent": 11.04,
-          "text": "4 hrs 26 mins"
+          "percent": 8.49,
+          "text": "3 hrs 28 mins"
+        },
+        {
+          "name": "Bash",
+          "percent": 7.44,
+          "text": "3 hrs 2 mins"
+        },
+        {
+          "name": "YAML",
+          "percent": 6.4,
+          "text": "2 hrs 37 mins"
         },
         {
           "name": "JSON",
-          "percent": 4.41,
-          "text": "1 hr 46 mins"
-        },
-        {
-          "name": "Other",
-          "percent": 3.87,
-          "text": "1 hr 33 mins"
-        },
-        {
-          "name": "Blade Template",
-          "percent": 3.28,
-          "text": "1 hr 18 mins"
+          "percent": 3.46,
+          "text": "1 hr 24 mins"
         }
       ]
     },
