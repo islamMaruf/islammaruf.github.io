@@ -1,51 +1,51 @@
 {
-  "updated_at": "2026-10-15T08:09:44Z",
+  "updated_at": "2026-10-16T08:02:55Z",
   "ranges": {
     "last_7_days": {
       "label": "Last 7 Days",
-      "total": "39 hrs 42 mins",
-      "daily_average": "5 hrs 40 mins",
+      "total": "37 hrs 38 mins",
+      "daily_average": "5 hrs 22 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 39.32,
-          "text": "16 hrs 6 mins"
+          "percent": 37.73,
+          "text": "14 hrs 30 mins"
         },
         {
           "name": "Markdown",
-          "percent": 26.02,
-          "text": "10 hrs 39 mins"
+          "percent": 28.52,
+          "text": "10 hrs 57 mins"
         },
         {
           "name": "TypeScript",
-          "percent": 8.49,
-          "text": "3 hrs 28 mins"
-        },
-        {
-          "name": "Bash",
-          "percent": 7.44,
-          "text": "3 hrs 2 mins"
+          "percent": 8.61,
+          "text": "3 hrs 18 mins"
         },
         {
           "name": "YAML",
-          "percent": 6.4,
-          "text": "2 hrs 37 mins"
+          "percent": 7.99,
+          "text": "3 hrs 4 mins"
         },
         {
-          "name": "JSON",
-          "percent": 3.46,
-          "text": "1 hr 24 mins"
+          "name": "Bash",
+          "percent": 7.93,
+          "text": "3 hrs 2 mins"
+        },
+        {
+          "name": "CSS",
+          "percent": 2.62,
+          "text": "1 hr"
         }
       ]
     },
     "all_time": {
       "label": "All Time",
-      "total": "7,586 hrs 39 mins",
+      "total": "7,587 hrs 24 mins",
       "daily_average": "4 hrs 41 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 42.35,
+          "percent": 42.34,
           "text": "3,515 hrs 58 mins"
         },
         {
