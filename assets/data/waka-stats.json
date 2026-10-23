@@ -1,71 +1,71 @@
 {
-  "updated_at": "2026-10-22T08:29:01Z",
+  "updated_at": "2026-10-23T08:25:17Z",
   "ranges": {
     "last_7_days": {
       "label": "Last 7 Days",
-      "total": "38 hrs 31 mins",
-      "daily_average": "5 hrs 30 mins",
+      "total": "43 hrs 54 mins",
+      "daily_average": "6 hrs 16 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 44.7,
-          "text": "17 hrs 41 mins"
+          "percent": 42.82,
+          "text": "19 hrs 22 mins"
         },
         {
           "name": "Markdown",
-          "percent": 35.35,
-          "text": "13 hrs 59 mins"
+          "percent": 31.58,
+          "text": "14 hrs 17 mins"
         },
         {
           "name": "YAML",
-          "percent": 12.43,
-          "text": "4 hrs 55 mins"
+          "percent": 15.4,
+          "text": "6 hrs 58 mins"
+        },
+        {
+          "name": "Docker",
+          "percent": 3.0,
+          "text": "1 hr 21 mins"
         },
         {
           "name": "Other",
-          "percent": 2.7,
-          "text": "1 hr 4 mins"
+          "percent": 2.95,
+          "text": "1 hr 19 mins"
         },
         {
           "name": "Bash",
-          "percent": 1.11,
-          "text": "26 mins"
-        },
-        {
-          "name": "TypeScript",
-          "percent": 0.85,
-          "text": "20 mins"
+          "percent": 1.0,
+          "text": "27 mins"
         }
       ]
     },
     "all_time": {
       "label": "All Time",
-      "total": "7,625 hrs 10 mins",
+      "total": "7,631 hrs 18 mins",
       "daily_average": "4 hrs 41 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 42.36,
-          "text": "3,533 hrs 39 mins"
+          "percent": 42.35,
+          "text": "3,535 hrs 20 mins"
         },
         {
           "name": "TypeScript",
-          "percent": 14.81,
+          "percent": 14.79,
           "text": "1,235 hrs 5 mins"
         },
         {
           "name": "Other",
           "percent": 8.59,
-          "text": "716 hrs 50 mins"
+          "text": "717 hrs 6 mins"
         },
         {
           "name": "JavaScript",
-          "percent": 6.48,
+          "percent": 6.47,
           "text": "540 hrs 13 mins"
         },
         {
           "name": "Vue.js",
-          "percent": 5.24,
+          "percent": 5.23,
           "text": "436 hrs 51 mins"
         },
         {
