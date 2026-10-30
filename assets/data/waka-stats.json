@@ -1,52 +1,52 @@
 {
-  "updated_at": "2026-10-29T09:43:57Z",
+  "updated_at": "2026-10-30T09:50:09Z",
   "ranges": {
     "last_7_days": {
       "label": "Last 7 Days",
-      "total": "9 hrs 55 mins",
-      "daily_average": "2 hrs 28 mins",
+      "total": "4 hrs 28 mins",
+      "daily_average": "1 hr 7 mins",
       "languages": [
         {
-          "name": "YAML",
-          "percent": 25.26,
-          "text": "2 hrs 37 mins"
-        },
-        {
-          "name": "PHP",
-          "percent": 21.87,
-          "text": "2 hrs 16 mins"
-        },
-        {
           "name": "TypeScript",
-          "percent": 20.42,
+          "percent": 45.12,
           "text": "2 hrs 7 mins"
         },
         {
-          "name": "Docker",
-          "percent": 13.09,
-          "text": "1 hr 21 mins"
+          "name": "PHP",
+          "percent": 24.37,
+          "text": "1 hr 8 mins"
         },
         {
           "name": "Markdown",
-          "percent": 11.19,
-          "text": "1 hr 9 mins"
+          "percent": 13.71,
+          "text": "38 mins"
+        },
+        {
+          "name": "Bash",
+          "percent": 6.66,
+          "text": "18 mins"
         },
         {
           "name": "Other",
-          "percent": 4.41,
-          "text": "27 mins"
+          "percent": 4.83,
+          "text": "13 mins"
+        },
+        {
+          "name": "YAML",
+          "percent": 2.8,
+          "text": "7 mins"
         }
       ]
     },
     "all_time": {
       "label": "All Time",
-      "total": "7,635 hrs 6 mins",
+      "total": "7,635 hrs 47 mins",
       "daily_average": "4 hrs 41 mins",
       "languages": [
         {
           "name": "PHP",
-          "percent": 42.33,
-          "text": "3,535 hrs 56 mins"
+          "percent": 42.34,
+          "text": "3,536 hrs 29 mins"
         },
         {
           "name": "TypeScript",
@@ -56,7 +56,7 @@
         {
           "name": "Other",
           "percent": 8.59,
-          "text": "717 hrs 17 mins"
+          "text": "717 hrs 19 mins"
         },
         {
           "name": "JavaScript",
